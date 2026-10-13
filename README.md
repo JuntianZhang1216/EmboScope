@@ -107,6 +107,8 @@ For development, use `python -m pip install -e .`. The package includes its task
 
 ## Data
 
+**Dataset download links have not yet been published.** The commands below assume you have obtained the matching v0.2.1 dataset archive or its JSONL and media files.
+
 The code checkout contains an empty `data/` placeholder. Download the question JSONL and all media into **`data/benchmark_data.jsonl` and `data/images/`**. Both evaluation entry points use this fixed location. The dataset payload is excluded from Git and the code archive; checksum metadata is already included in `metadata/` at the repository root.
 
 From the repository root, extract the matching dataset archive into `data/`:
@@ -123,13 +125,13 @@ Validate all records, decode all images and check all media hashes:
 embodied-eval validate --output artifacts/data_validation.json
 ```
 
-Prepare the complete evaluation corpus:
+The Shell workflow below prepares its own corpus. For the [individual CLI commands](#individual-cli-commands), prepare a corpus explicitly:
 
 ```bash
 embodied-eval prepare --output artifacts/corpus
 ```
 
-For a quick interface check, prepare one question per task in a separate corpus:
+For a subset used with individual CLI commands, prepare one question per task in a separate corpus:
 
 ```bash
 embodied-eval prepare --per-task 1 --output artifacts/smoke_corpus
@@ -139,60 +141,137 @@ Run the installed `embodied-eval` CLI from the checkout or one of its subdirecto
 
 ## Evaluate
 
-### Deploy the paper's local models
+`evaluate.sh` calls **running model services** over HTTP. It prepares inputs, requests predictions, judges open responses and writes scores; it does not download weights or start model servers. Full evaluation needs a model service and a multimodal judge service, each with its own JSON configuration. Both must support OpenAI-compatible chat completions with multiple images.
 
-[`deploy/`](deploy/README.md) provides **20 local models and 24 evaluation profiles**, including the four Thinking variants. It includes vLLM launchers, the native HY MoT server, Phi/HY compatibility patches, and model-specific settings. The code archive contains the deployment code; weights and model environments are downloaded separately.
+Run the following commands from the repository root, after completing [installation](#install) and [data preparation](#data). The lightweight evaluator uses `.venv`; local GPU servers use separate `.venvs/*` environments. An existing API service does not require a local GPU environment.
+
+### Option A: Deploy a local model
+
+[`deploy/`](deploy/README.md) provides **20 local models and 24 evaluation profiles**, including four Thinking variants. Local serving requires Linux, NVIDIA GPUs, Python 3.12, compatible drivers and CUDA build tools; `pip install .` only installs the evaluator. See the [deployment guide](deploy/README.md) for build prerequisites, model-specific environments and reference GPU counts.
+
+This example serves Qwen3.5-4B on GPU 0 and port 8000. The environment and deployment output directories must be new:
 
 ```bash
+# List supported profiles; this does not start a server.
 bash deploy/serve.sh --list
-bash deploy/install.sh --environment vllm --venv .venvs/vllm --dry-run
+
+# Install the model environment, then download the complete checkpoint.
+bash deploy/install.sh --environment vllm --venv .venvs/vllm --python python3.12
+.venvs/vllm/bin/hf download Qwen/Qwen3.5-4B --local-dir weights/qwen35-4b
+
+# Terminal 1: keep this process running.
+CUDA_VISIBLE_DEVICES=0 bash deploy/serve.sh \
+  --profile qwen35-4b --model-path weights/qwen35-4b \
+  --python .venvs/vllm/bin/python \
+  --port 8000 --output outputs/services/qwen35-4b
 ```
 
-Follow the [deployment guide](deploy/README.md) to install a separate GPU environment and start a model. Select `--profile` and point `--model-path` to the downloaded weights; deployment information is recorded automatically. Each deployment generates a `model.json` for `evaluate.sh`; the Qwen A17B profile also generates a local `judge.json`. InternVL Thinking requires `--prompts-path configs/prompts/internvl35-14b-thinking.json`.
+The launcher creates **`outputs/services/qwen35-4b/model.json`**, containing the endpoint, served model name and evaluation settings. Pass this generated file to `--model-config`; `configs/models/*.json` are the launcher's input profiles. `--model-path` is a weight directory used only by the server, not an evaluation configuration.
 
-### Unified Shell entry point
-
-For locally deployed models, pass the generated `model.json` and `judge.json` directly to the evaluator. For existing services, configure the endpoints, model names and generation parameters in the JSON templates, then run:
+In **Terminal 2**, from the same checkout, check readiness:
 
 ```bash
-bash evaluate.sh \
-  --model-config configs/model.example.json \
-  --judge-config configs/judge.example.json \
-  --output artifacts/my_model
+.venv/bin/embodied-eval probe \
+  --config-path outputs/services/qwen35-4b/model.json
 ```
 
-The script prepares the corpus, runs inference, judges open answers and writes the final report to `artifacts/my_model/scores/report.json` and `report.md`. Stage outputs are stored in `corpus/`, `model/`, `judge/`, `scores/` and `logs/` under that directory. It uses the Python package in this checkout.
+Continue after `ready` is `true`. The configuration file is written before weights finish loading, so its existence alone does not indicate readiness. `probe` checks model discovery; the one-question-per-task run below checks actual image inference.
 
-Repeat the same command to resume. The script checks that the dataset, question selection, prompts and evaluator still match; successful responses are reused. Incomplete inference produces a partial report and stops before judging. Incomplete inference or scoring exits with code 3; inspect the logs and use `--retry-pending` or `--retry-unknown` only for the corresponding failures.
+For the local reference judge, follow the complete [judge deployment commands](deploy/README.md#local-judge--本地裁判). The `qwen35-a17b-fp8` profile on port 8001 with `--output outputs/services/judge` generates **`outputs/services/judge/judge.json`**. This is a large model with a reference tensor-parallel count of **8 GPUs**; weights and sufficient GPU memory are required. Use `judge.json` for judging, because its generation budget differs from `model.json`. You may instead configure an existing multimodal judge using Option B. Keep the judge settings fixed across models you compare.
 
-For a quick end-to-end check, add `--per-task 1` and use a separate output directory such as `artifacts/smoke`. Retain that selection flag when resuming. Use `--stage prepare|run|judge|score` to execute a single stage, or `--skip-judge` for closed-question scoring. With `--skip-judge`, open questions remain unscored and the report does not contain a complete overall accuracy. `--python` selects the interpreter. Configuration and output paths are resolved from the calling directory; the dataset always comes from this checkout's `data/`.
+If the model and judge share GPUs, use the [sequential workflow](deploy/README.md#sequential-evaluation--分阶段评测) to finish model inference before stopping that server and starting the judge. The default `all` workflow assumes both services remain available. To run only the model and score closed questions, replace `--judge-config ...` with `--skip-judge`; open questions remain unscored.
 
-See `bash evaluate.sh --help` and the [workflow details](docs/EVALUATION.md#unified-shell-workflow).
+For another local model, select its profile, upstream checkpoint and environment from the [profile table](deploy/README.md#model-profiles--模型配置), then pass the newly generated `model.json`. InternVL Thinking also requires `--prompts-path configs/prompts/internvl35-14b-thinking.json` on every stage and resume.
+
+### Option B: Connect existing model and judge services
+
+Skip local deployment if you already have compatible services. Copy the templates to the ignored `outputs/` directory, then edit the copies:
+
+```bash
+mkdir -p outputs/configs
+cp configs/model.example.json outputs/configs/model.json
+cp configs/judge.example.json outputs/configs/judge.json
+```
+
+| Field in each JSON | What to fill in |
+| --- | --- |
+| `endpoint` | The complete chat-completions URL, typically ending in `/v1/chat/completions`; a base URL ending only in `/v1` is insufficient. |
+| `model` | The exact model ID accepted by that service, usually listed by `/v1/models`; not the local weight path. |
+| `reasoning_mode` | `disabled`, `enabled` or `provider_default`, matching the service. This declaration alone does not switch backend thinking on or off. |
+| `generation` | Supported generation parameters and an output budget. Use only one of `max_tokens` or `max_completion_tokens`; omit unsupported optional fields such as `seed`. |
+| `api_key_env` | Optional environment-variable name such as `MODEL_API_KEY` or `JUDGE_API_KEY`. Omit it if authentication is not required. |
+
+The template model names are placeholders and must be replaced. Both services must accept the benchmark's image inputs; a text-only judge cannot perform this evaluation. For authenticated services, add `"api_key_env": "MODEL_API_KEY"` to the model JSON and `"api_key_env": "JUDGE_API_KEY"` to the judge JSON, then set the values in the evaluation terminal (Bash) without putting them in the files:
+
+```bash
+read -r -s -p "Model API key: " MODEL_API_KEY
+export MODEL_API_KEY
+read -r -s -p "Judge API key: " JUDGE_API_KEY
+export JUDGE_API_KEY
+
+.venv/bin/embodied-eval probe --config-path outputs/configs/model.json
+.venv/bin/embodied-eval probe --config-path outputs/configs/judge.json
+```
+
+Skip the `read`/`export` commands for services without authentication. `probe` requires a `/models` discovery endpoint; if a provider does not expose one, verify its advertised model ID and use the small evaluation below to check chat-completions compatibility. For services on another machine, use an address reachable from the evaluator: `127.0.0.1` always refers to the machine running the evaluator. For this repository's launcher, see [host and authentication settings](deploy/README.md#other-hosts-and-resources--其他机器与资源).
+
+### Pass the configurations to the evaluator
+
+| Argument | Locally deployed example | Existing-service example |
+| --- | --- | --- |
+| `--model-config` | `outputs/services/qwen35-4b/model.json` | `outputs/configs/model.json` |
+| `--judge-config` | `outputs/services/judge/judge.json` | `outputs/configs/judge.json` |
+| `--python` | `.venv/bin/python` (evaluator environment) | `.venv/bin/python` |
+| `--output` | A directory for evaluation results, separate from service records | Same requirement |
+
+First run one question per task. The following uses the local configurations; for existing services, substitute the two paths from the right-hand column. A local model and an existing judge can also be combined.
+
+```bash
+bash evaluate.sh --python .venv/bin/python \
+  --model-config outputs/services/qwen35-4b/model.json \
+  --judge-config outputs/services/judge/judge.json \
+  --per-task 1 --output outputs/evaluations/qwen35-4b-smoke
+```
+
+After the interface check succeeds, evaluate **all 4,467 questions** by omitting `--per-task` and choosing a **different output directory**:
+
+```bash
+bash evaluate.sh --python .venv/bin/python \
+  --model-config outputs/services/qwen35-4b/model.json \
+  --judge-config outputs/services/judge/judge.json \
+  --output outputs/evaluations/qwen35-4b
+```
+
+The final report is written to `outputs/evaluations/qwen35-4b/scores/report.json` and `report.md`. Intermediate outputs are stored in `corpus/`, `model/`, `judge/`, `scores/` and `logs/` under that evaluation directory. No dataset-path argument is needed.
+
+Repeat the same command to resume; retain `--per-task 1` when resuming a small run. Successful responses are reused. Changed model settings, deployment, prompts or question selection require a new evaluation output directory. Incomplete inference produces a partial report and stops before judging; incomplete inference or scoring exits with code 3. Inspect the logs before using `--retry-pending` for known failures or `--retry-unknown` for requests whose delivery is unknown.
+
+`--stage prepare|run|judge|score` selects one stage. `--skip-judge` scores closed questions only and does not yield a complete overall accuracy. Configuration and output paths are relative to the calling directory; the dataset always comes from this checkout's `data/`. See `bash evaluate.sh --help` and the [workflow details](docs/EVALUATION.md#unified-shell-workflow).
 
 ### Individual CLI commands
 
-Copy `configs/model.example.json` to a local configuration, set the full chat-completions endpoint and model identifier, then declare the model's reasoning mode. For authentication, add `"api_key_env": "MODEL_API_KEY"` and set that environment variable. Keys are never written into configuration files by the evaluator.
+The commands below use the edited existing-service configurations from Option B and the corpus prepared in the Data section. Substitute generated service configurations when using local deployments.
 
 ```bash
-embodied-eval probe --config-path configs/model.example.json
+embodied-eval probe --config-path outputs/configs/model.json
 
 embodied-eval run --corpus artifacts/corpus \
-  --config-path configs/model.example.json --output artifacts/model_run \
+  --config-path outputs/configs/model.json --output artifacts/model_run \
   --canary-per-task 1
 
 # Resume the same run after checking the first responses.
 embodied-eval run --corpus artifacts/corpus \
-  --config-path configs/model.example.json --output artifacts/model_run
+  --config-path outputs/configs/model.json --output artifacts/model_run
 
 embodied-eval score --corpus artifacts/corpus \
   --run-dir artifacts/model_run --output artifacts/model_scores
 ```
 
-For open questions, configure a fixed multimodal judge in `configs/judge.example.json`:
+For open questions, use the fixed multimodal judge configured in `outputs/configs/judge.json`:
 
 ```bash
 embodied-eval judge --corpus artifacts/corpus --run-dir artifacts/model_run \
-  --config-path configs/judge.example.json --output artifacts/judge_run
+  --config-path outputs/configs/judge.json --output artifacts/judge_run
 
 embodied-eval score --corpus artifacts/corpus --run-dir artifacts/model_run \
   --judge-dir artifacts/judge_run --output artifacts/model_scores_with_judge

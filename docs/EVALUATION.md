@@ -2,7 +2,18 @@
 
 ## Unified Shell workflow
 
-Place the downloaded JSONL at `data/benchmark_data.jsonl` and all media in `data/images/`. After installing dependencies and configuring both serving JSON files, run `bash evaluate.sh --model-config configs/model.example.json --judge-config configs/judge.example.json --output artifacts/my_model` from the checkout. The entry point calls this checkout's Python evaluator and works from other directories when invoked by its path. Configuration and output arguments refer to the caller's working directory; the dataset is fixed to the script's checkout. Missing downloads produce an actionable error before inference.
+Place the downloaded JSONL at `data/benchmark_data.jsonl` and all media in `data/images/`. Install the evaluator, start the model and judge services, and obtain their JSON configurations as shown in the [README](../README.md#evaluate). `evaluate.sh` calls existing HTTP services; it does not deploy them. For the local deployment examples, run:
+
+```bash
+bash evaluate.sh --python .venv/bin/python \
+  --model-config outputs/services/qwen35-4b/model.json \
+  --judge-config outputs/services/judge/judge.json \
+  --output outputs/evaluations/qwen35-4b
+```
+
+For existing API services, use the edited copies in `outputs/configs/` instead. The `*.example.json` files contain placeholder model IDs and are not ready to run unchanged. Both services must be available for the default `all` workflow; see [sequential evaluation](../deploy/README.md#sequential-evaluation--分阶段评测) to share GPUs between inference and judging.
+
+The entry point calls this checkout's Python evaluator and works from other directories when invoked by its path. Configuration and output arguments refer to the caller's working directory; the dataset is fixed to the script's checkout. Missing downloads produce an actionable error before inference.
 
 The installed Python CLI also uses the checkout's fixed `data/` directory; run it from the checkout or a subdirectory. Full validation uses the checksum manifests in the repository-root `metadata/`, so users only need to download the JSONL and media.
 
@@ -13,6 +24,8 @@ The installed Python CLI also uses the checkout's fixed `data/` directory; run i
 | `run` | Run or resume inference on the prepared corpus |
 | `judge` | Require complete inference, run or resume the judge, and write scores |
 | `score` | Write scores from saved predictions and any saved judgments; no model requests |
+
+When running stages separately, call `--stage prepare` before `--stage run`; only `all` and `prepare` create a missing corpus. The `judge` stage requires complete saved model predictions and also writes the scores.
 
 The output directory contains `corpus/`, `model/`, `judge/`, `scores/` and per-stage logs in `logs/`. `--model-config` is required by `all`/`run`; `--judge-config` is required by `all`/`judge`. `all --skip-judge` requires only the model configuration. The script validates both configurations and authentication environment variables before starting an `all` run.
 
