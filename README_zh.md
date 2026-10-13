@@ -22,11 +22,19 @@
 
 ### 论文报告的评测结果
 
-[![五个代表性基线在 EmboScope 三层任务上的能力雷达图](docs/figures/capability_profiles.png)](docs/figures/capability_profiles.pdf)
+<p align="center">
+  <a href="docs/figures/capability_profiles.pdf">
+    <img src="docs/figures/capability_profiles.png" alt="五个代表性基线在 EmboScope 三层任务上的能力雷达图" width="600">
+  </a>
+</p>
 
 **模型能力分布。** 五个代表性基线统一使用 0–100% 准确率刻度，每条轴对应一个任务；多边形面积不表示综合得分，也不用于跨面板比较。[查看 PDF 原图](docs/figures/capability_profiles.pdf)。
 
-[![被评模型在 EmboScope 全部 14 类任务上的准确率分布](docs/figures/task_accuracy.png)](docs/figures/task_accuracy.pdf)
+<p align="center">
+  <a href="docs/figures/task_accuracy.pdf">
+    <img src="docs/figures/task_accuracy.png" alt="被评模型在 EmboScope 全部 14 类任务上的准确率分布" width="600">
+  </a>
+</p>
 
 **各任务准确率分布。** 散点表示各模型的准确率，短横线表示均值，小提琴图表示被评模型的得分分布。[查看 PDF 原图](docs/figures/task_accuracy.pdf)。
 

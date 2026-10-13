@@ -30,11 +30,19 @@ One example from each level: relative distance, action between frames, and actio
 
 ### Results reported in the paper
 
-[![Task-level capability profiles of five baselines across the three EmboScope levels](docs/figures/capability_profiles.png)](docs/figures/capability_profiles.pdf)
+<p align="center">
+  <a href="docs/figures/capability_profiles.pdf">
+    <img src="docs/figures/capability_profiles.png" alt="Task-level capability profiles of five baselines across the three EmboScope levels" width="600">
+  </a>
+</p>
 
 **Capability profiles.** Five representative baselines on the same 0–100% accuracy scale. Each axis represents a task; polygon areas are not aggregate scores and should not be compared across panels. [View PDF](docs/figures/capability_profiles.pdf).
 
-[![Accuracy distributions across evaluated models for all 14 EmboScope tasks](docs/figures/task_accuracy.png)](docs/figures/task_accuracy.pdf)
+<p align="center">
+  <a href="docs/figures/task_accuracy.pdf">
+    <img src="docs/figures/task_accuracy.png" alt="Accuracy distributions across evaluated models for all 14 EmboScope tasks" width="600">
+  </a>
+</p>
 
 **Task accuracy distributions.** Dots show individual model accuracies, short bars indicate means, and violins summarize the distributions across evaluated models. [View PDF](docs/figures/task_accuracy.pdf).
 
