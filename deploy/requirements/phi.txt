@@ -1,0 +1,2 @@
+-r vllm.txt
+scipy==1.17.1

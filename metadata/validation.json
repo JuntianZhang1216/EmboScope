@@ -1,0 +1,69 @@
+{
+  "release_version": "0.2.1",
+  "validation_date": "2026-10-08",
+  "unit_tests": {
+    "passed": 43,
+    "failed": 0
+  },
+  "data": {
+    "status": "passed",
+    "questions": 4467,
+    "tasks": {
+      "relative_distance": 300,
+      "attribute_matching": 289,
+      "cross_view_matching": 300,
+      "frame_completion": 352,
+      "action_prediction_selection": 557,
+      "progress_comparison": 293,
+      "progress_ordering": 330,
+      "progress_anomaly_detection": 294,
+      "action_frame_matching": 217,
+      "action_between_frames": 331,
+      "step_frame_alignment": 257,
+      "action_sequence_description": 218,
+      "adjacent_action": 229,
+      "step_completion": 500
+    },
+    "answer_formats": {
+      "single_choice": 3520,
+      "open": 447,
+      "yes_no": 500
+    },
+    "unique_images": 42637,
+    "media_bytes": 4651532358,
+    "dataset_sha256": "bfd228d8f505b4a96cdc8715351117b063cf9cca0c78c655cdd7dda56e545383",
+    "all_media_hashes_verified": true,
+    "all_images_decoded": true,
+    "relative_paths_only": true,
+    "source_field_absent": true,
+    "standalone_regular_files": true
+  },
+  "inputs": {
+    "status": "passed",
+    "questions": 4467,
+    "public_inputs_verified": true,
+    "references_verified": true,
+    "all_gt_isolation_checks_passed": true,
+    "prepared_manifest_sha256": "5381f450436b59d578f916ff0e962be7050fa451900b71e9168fbe81fa3f4906"
+  },
+  "offline_smoke": {
+    "status": "passed_local_mock_only",
+    "tasks": 14,
+    "solve_requests": 14,
+    "judge_requests": 2,
+    "solve_images": 120,
+    "fixed_denominator": 4467,
+    "real_model_requests": 0,
+    "binary_judgments_verified": true,
+    "correct_and_incorrect_exercised": true
+  },
+  "judge_protocol": {
+    "version": "semantic_judge_v3_binary_sequence_alignment",
+    "valid_verdicts": {
+      "correct": 1,
+      "incorrect": 0
+    },
+    "mismatched_protocol_rejected": true,
+    "complete_results_have_final_accuracy": true
+  }
+}

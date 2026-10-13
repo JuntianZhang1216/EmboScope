@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.venvs/
+/weights/
+/outputs/
+build/
+dist/
+.env
+.env.*
+!.env.example
+artifacts/
+*.log
+.DS_Store
+# Users populate this fixed directory from the separate dataset download.
+/data/*
+!/data/.gitkeep
+*.tar
+*.tar.gz
+*.zip

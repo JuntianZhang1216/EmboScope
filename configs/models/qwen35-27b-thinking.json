@@ -1,0 +1,22 @@
+{
+  "endpoint": "http://127.0.0.1:8000/v1/chat/completions",
+  "model": "qwen35-27b",
+  "reasoning_mode": "enabled",
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 8192,
+    "seed": 42
+  },
+  "request_extra": {
+    "chat_template_kwargs": {
+      "enable_thinking": true
+    }
+  },
+  "workers": 2,
+  "requests_per_second": 2,
+  "timeout_sec": 1800,
+  "max_attempts": 3,
+  "max_payload_bytes": 100000000,
+  "trust_env_proxy": false
+}

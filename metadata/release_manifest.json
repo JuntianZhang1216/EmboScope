@@ -1,0 +1,37 @@
+{
+  "version": "0.2.1",
+  "schema_version": 1,
+  "dataset": "data/benchmark_data.jsonl",
+  "dataset_sha256": "bfd228d8f505b4a96cdc8715351117b063cf9cca0c78c655cdd7dda56e545383",
+  "images_manifest_sha256": "8b77e3b429baced683e2eba79c3fdd819e304f39712ee5719d90bebda140ab9d",
+  "video_frames_sha256": "4ec80efa6f1f020da51ded2b7ab9419e8ef97916426fb924b592e01dcbf09668",
+  "questions": 4467,
+  "tasks": {
+    "relative_distance": 300,
+    "attribute_matching": 289,
+    "cross_view_matching": 300,
+    "frame_completion": 352,
+    "action_prediction_selection": 557,
+    "progress_comparison": 293,
+    "progress_ordering": 330,
+    "progress_anomaly_detection": 294,
+    "action_frame_matching": 217,
+    "action_between_frames": 331,
+    "step_frame_alignment": 257,
+    "action_sequence_description": 218,
+    "adjacent_action": 229,
+    "step_completion": 500
+  },
+  "answer_formats": {
+    "single_choice": 3520,
+    "open": 447,
+    "yes_no": 500
+  },
+  "unique_images": 42637,
+  "media_references": 42643,
+  "media_bytes": 4651532358,
+  "video_questions_as_fixed_frames": 229,
+  "dataset_description": "Synthetically constructed visual question-answer benchmark",
+  "media_paths_relative_to": "dataset_directory",
+  "video_representation": "fixed_ordered_observation_frames"
+}

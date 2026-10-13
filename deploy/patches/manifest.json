@@ -1,0 +1,32 @@
+{
+  "phi4mm-crops": {
+    "patch": "phi4mm-crops.patch",
+    "files": {
+      "vllm/model_executor/models/phi4mm.py": {
+        "before": "7d8e6eb49dc29a17a14616b00762133ddb6c099b5901f3e069773f6c403a2bba",
+        "after": "3aa98dcc2934afbfab5e294123e49fc4858bfba4335d78c10d5a5e3006f539ac"
+      }
+    }
+  },
+  "hy-vlm10-vllm": {
+    "patch": "hy-vlm10-vllm.patch",
+    "files": {
+      "hy_embodied_vllm/hunyuan_v3.py": {
+        "before": "ddb3e7de5574da72e01e757efc1cce711a4df9d48c15e6a4e71fd3a114fc7a6a",
+        "after": "dceb11f4c7746e1f521fbab4ca0296f616ad3e8782f5b127a423466d8281a369"
+      },
+      "hy_embodied_vllm/hunyuan_vision.py": {
+        "before": "ec3cd833c3a4ec63f80c0e5739c45c980e787970c67ba5a04550731459f751fe",
+        "after": "3fe75e4878a5eb56be1363d7ffb9238ee90ba44dee9f026838546ae55943fa5b"
+      },
+      "hy_embodied_vllm/parsers/hy_v3_reasoning_parser.py": {
+        "before": "da4cfd6d391563b61704afd5c393fea1c7e50d6a7500ae5f25187974456fab6e",
+        "after": "510216e3c9de74f9d4fcf3560ae6bd22d2fadb99c4115cd623094b78afc9ab31"
+      },
+      "hy_embodied_vllm/parsers/hy_v3_tool_parser.py": {
+        "before": "192cb53c3a03c673e4d86a2ea027be6ec17f1dc0c136a95c7916387039a35549",
+        "after": "970cf402d91d31032918b5dc5f0db2e2a128eccbcfa00cf2fb2ee36c9c0cd188"
+      }
+    }
+  }
+}

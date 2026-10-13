@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "field": "task",
+  "required": true,
+  "model_input": false,
+  "tasks": {
+    "relative_distance": {
+      "name_zh": "相对近远判断",
+      "answer_format": "single_choice",
+      "description": "比较指定对象相对相机的近远。"
+    },
+    "attribute_matching": {
+      "name_zh": "属性与状态匹配",
+      "answer_format": "single_choice",
+      "description": "选择满足指定对象属性、状态或关系描述的帧。"
+    },
+    "cross_view_matching": {
+      "name_zh": "跨视角状态匹配",
+      "answer_format": "single_choice",
+      "description": "匹配不同视角下同一时刻的状态。"
+    },
+    "frame_completion": {
+      "name_zh": "连续交互缺帧补全",
+      "answer_format": "single_choice",
+      "description": "从候选帧中补全交互序列的缺失帧。"
+    },
+    "action_frame_matching": {
+      "name_zh": "动作与帧匹配",
+      "answer_format": "single_choice",
+      "description": "选择与给定动作描述对应的观察帧。"
+    },
+    "action_between_frames": {
+      "name_zh": "帧间动作识别",
+      "answer_format": "single_choice",
+      "description": "根据两个时刻的可见变化识别其间发生的动作。"
+    },
+    "step_frame_alignment": {
+      "name_zh": "步骤与图组对齐",
+      "answer_format": "single_choice",
+      "description": "将图组与题目给定的步骤对应，输出标签顺序。"
+    },
+    "action_sequence_description": {
+      "name_zh": "动作序列描述",
+      "answer_format": "open",
+      "description": "按发生顺序描述已观察过程中的动作序列。"
+    },
+    "adjacent_action": {
+      "name_zh": "相邻动作识别",
+      "answer_format": "open",
+      "description": "识别锚事件紧邻的前一个或后一个动作。"
+    },
+    "step_completion": {
+      "name_zh": "指定步骤完成判定",
+      "answer_format": "yes_no",
+      "description": "判断题干指定步骤集合是否完成；仅在题干明确要求时检验顺序。"
+    },
+    "action_prediction_selection": {
+      "name_zh": "动作预测与选择",
+      "answer_format": "single_choice",
+      "description": "根据已观察过程、当前状态及题目提供的任务或目标信息，预测或选择下一动作；参考答案来自示范中的实际续接。"
+    },
+    "progress_comparison": {
+      "name_zh": "目标进度比较",
+      "answer_format": "single_choice",
+      "description": "选择最接近或最远离指定目标完成状态的帧。"
+    },
+    "progress_ordering": {
+      "name_zh": "目标进度排序",
+      "answer_format": "single_choice",
+      "description": "按可见的目标完成进度对候选状态排序。"
+    },
+    "progress_anomaly_detection": {
+      "name_zh": "目标进度异常检测",
+      "answer_format": "single_choice",
+      "description": "识别破坏目标进程的帧，或判断没有异常。"
+    }
+  }
+}

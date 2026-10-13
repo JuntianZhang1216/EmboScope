@@ -1,0 +1,18 @@
+{
+  "endpoint": "http://127.0.0.1:8000/v1/chat/completions",
+  "model": "ovis2-8b",
+  "reasoning_mode": "provider_default",
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 1024,
+    "seed": 42
+  },
+  "request_extra": {},
+  "workers": 2,
+  "requests_per_second": 2,
+  "timeout_sec": 1800,
+  "max_attempts": 3,
+  "max_payload_bytes": 100000000,
+  "trust_env_proxy": false
+}

@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-09",
+  "status": "passed",
+  "dataset": "data/benchmark_data.jsonl",
+  "media_directory": "data/images",
+  "metadata_directory": "metadata",
+  "unit_tests": {
+    "total": 65,
+    "core": 43,
+    "shell": 9,
+    "deployment": 11,
+    "data_layout": 2,
+    "failed": 0
+  },
+  "fixed_layout": {
+    "shell_dataset_override": false,
+    "python_cli_dataset_override": false,
+    "code_data_entries": [
+      "data/.gitkeep"
+    ],
+    "dataset_archive_layout": [
+      "benchmark_data.jsonl",
+      "images/"
+    ],
+    "extract_dataset_archive_to": "data/",
+    "missing_downloads_rejected_before_requests": true,
+    "fixture_archive_round_trip": "passed"
+  },
+  "full_dataset": {
+    "status": "passed",
+    "questions": 4467,
+    "tasks": {
+      "relative_distance": 300,
+      "attribute_matching": 289,
+      "cross_view_matching": 300,
+      "frame_completion": 352,
+      "action_prediction_selection": 557,
+      "progress_comparison": 293,
+      "progress_ordering": 330,
+      "progress_anomaly_detection": 294,
+      "action_frame_matching": 217,
+      "action_between_frames": 331,
+      "step_frame_alignment": 257,
+      "action_sequence_description": 218,
+      "adjacent_action": 229,
+      "step_completion": 500
+    },
+    "answer_formats": {
+      "single_choice": 3520,
+      "open": 447,
+      "yes_no": 500
+    },
+    "unique_images": 42637,
+    "media_bytes": 4651532358,
+    "dataset_sha256": "bfd228d8f505b4a96cdc8715351117b063cf9cca0c78c655cdd7dda56e545383",
+    "all_media_hashes_verified": true,
+    "all_images_decoded": true,
+    "relative_paths_only": true,
+    "source_field_absent": true,
+    "standalone_regular_files": true
+  },
+  "installed_wheel": {
+    "status": "passed",
+    "installed_cli": "prepared 14 task inputs from a checkout subdirectory",
+    "data_path": "data/benchmark_data.jsonl",
+    "questions": 14,
+    "media_root_fixed": true
+  },
+  "compiler": {
+    "__init__.py": "40cadec30ed2812f75c1f71bb35e8a4de175a7776707a85c96e038976e6ade3d",
+    "__main__.py": "865aeb35f093931da8cbbb1c5980a4a4758f9f4634eb137cde64c4fb4274a588",
+    "answer_adapters.py": "ad354f2a7419b833536baba6e97de025c0bcb0bdc2632a5303869599a07764b9",
+    "common.py": "b50764d95595b078841266e57a4cfdb9c870bf82bcac7072fbca39b07ab7cb97",
+    "inputs.py": "b826f18a523afc9c354b8676ac530c2ad26afd5a9f29dea80816011f84b3c835",
+    "layout.py": "82d832949be644284a3c649d8e8e8b526c9a64d0cb6564084665da7b1fe316c9",
+    "release.py": "69120bd1ccce1f1339b45fbde06ebb298b7ed7fc4d11972d7f7470fb924d7cce",
+    "scoring.py": "577a333e2ef6e84f9bc2764d1403ca9ae16d3d600d8811e255db06b65fed47b9",
+    "serving.py": "f6693cf163919fba86484ba86be9073d2fd726ad27f1d505395bdfc13307041b",
+    "taxonomy.py": "fe3b130bf29c154254674a8e4c0908144bc80e72fd4a4bcb37c02d5356b61cbf"
+  },
+  "real_model_requests": 0
+}

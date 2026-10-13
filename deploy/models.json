@@ -1,0 +1,483 @@
+{
+  "schema_version": 1,
+  "models": {
+    "qwen35-4b": {
+      "name": "Qwen3.5-4B",
+      "repo": "Qwen/Qwen3.5-4B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 131072,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--reasoning-parser",
+        "qwen3"
+      ]
+    },
+    "qwen35-27b": {
+      "name": "Qwen3.5-27B",
+      "repo": "Qwen/Qwen3.5-27B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 2,
+      "max_model_len": 131072,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--reasoning-parser",
+        "qwen3"
+      ]
+    },
+    "qwen35-a17b-fp8": {
+      "name": "Qwen3.5-397B-A17B",
+      "repo": "Qwen/Qwen3.5-397B-A17B-FP8",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 8,
+      "max_model_len": 131072,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--reasoning-parser",
+        "qwen3"
+      ]
+    },
+    "internvl35-8b": {
+      "name": "InternVL3.5-8B",
+      "repo": "OpenGVLab/InternVL3_5-8B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 40960,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--trust-remote-code",
+        "--safetensors-load-strategy",
+        "eager",
+        "--mm-processor-kwargs",
+        "{\"max_dynamic_patch\":3}"
+      ]
+    },
+    "internvl35-14b": {
+      "name": "InternVL3.5-14B",
+      "repo": "OpenGVLab/InternVL3_5-14B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 40960,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--trust-remote-code",
+        "--safetensors-load-strategy",
+        "eager",
+        "--mm-processor-kwargs",
+        "{\"max_dynamic_patch\":3}"
+      ]
+    },
+    "internvl35-30b-a3b": {
+      "name": "InternVL3.5-30B-A3B",
+      "repo": "OpenGVLab/InternVL3_5-30B-A3B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 2,
+      "max_model_len": 40960,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--trust-remote-code",
+        "--safetensors-load-strategy",
+        "eager",
+        "--mm-processor-kwargs",
+        "{\"max_dynamic_patch\":3}"
+      ]
+    },
+    "internvl35-38b": {
+      "name": "InternVL3.5-38B",
+      "repo": "OpenGVLab/InternVL3_5-38B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 2,
+      "max_model_len": 40960,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--trust-remote-code",
+        "--safetensors-load-strategy",
+        "eager",
+        "--mm-processor-kwargs",
+        "{\"max_dynamic_patch\":3}"
+      ]
+    },
+    "gemma3-4b-it": {
+      "name": "Gemma3-4B-it",
+      "repo": "google/gemma-3-4b-it",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 32768,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--safetensors-load-strategy",
+        "eager"
+      ]
+    },
+    "gemma3-27b-it": {
+      "name": "Gemma3-27B-it",
+      "repo": "google/gemma-3-27b-it",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 2,
+      "max_model_len": 32768,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--safetensors-load-strategy",
+        "eager"
+      ]
+    },
+    "minicpm-v45": {
+      "name": "MiniCPM-V-4.5",
+      "repo": "openbmb/MiniCPM-V-4_5",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 32768,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--trust-remote-code",
+        "--reasoning-parser",
+        "qwen3",
+        "--safetensors-load-strategy",
+        "eager"
+      ]
+    },
+    "minicpm-o45": {
+      "name": "MiniCPM-o-4.5",
+      "repo": "openbmb/MiniCPM-o-4_5",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 40960,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--trust-remote-code",
+        "--safetensors-load-strategy",
+        "eager",
+        "--mm-processor-kwargs",
+        "{\"max_slice_nums\":1}"
+      ]
+    },
+    "ovis2-8b": {
+      "name": "Ovis2-8B",
+      "repo": "AIDC-AI/Ovis2-8B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 32768,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--trust-remote-code",
+        "--safetensors-load-strategy",
+        "eager",
+        "--mm-processor-kwargs",
+        "{\"max_partition\": 1}"
+      ]
+    },
+    "phi4-multimodal": {
+      "name": "Phi-4-multimodal",
+      "repo": "microsoft/Phi-4-multimodal-instruct",
+      "backend": "vllm",
+      "environment": "phi",
+      "tensor_parallel": 1,
+      "max_model_len": 65536,
+      "limit_mm_per_prompt": {
+        "image": 32,
+        "audio": 1
+      },
+      "extra_args": [
+        "--trust-remote-code",
+        "--safetensors-load-strategy",
+        "eager",
+        "--mm-processor-kwargs",
+        "{\"dynamic_hd\": 4}",
+        "--enable-lora",
+        "--max-lora-rank",
+        "320",
+        "--default-mm-loras",
+        "{\"image\":\"{model_path}/vision-lora\"}"
+      ]
+    },
+    "ministral3-14b-instruct": {
+      "name": "Ministral 3 14B Instruct",
+      "repo": "mistralai/Ministral-3-14B-Instruct-2512",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 131072,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--tokenizer-mode",
+        "mistral",
+        "--config-format",
+        "mistral",
+        "--load-format",
+        "mistral",
+        "--safetensors-load-strategy",
+        "eager"
+      ]
+    },
+    "glm46v": {
+      "name": "GLM-4.6V",
+      "repo": "zai-org/GLM-4.6V",
+      "backend": "vllm",
+      "environment": "glm",
+      "tensor_parallel": 4,
+      "max_model_len": 131072,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--reasoning-parser",
+        "glm45",
+        "--safetensors-load-strategy",
+        "eager"
+      ]
+    },
+    "cosmos-reason1-7b": {
+      "name": "Cosmos-Reason1-7B",
+      "repo": "nvidia/Cosmos-Reason1-7B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 128000,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--safetensors-load-strategy",
+        "eager"
+      ]
+    },
+    "robobrain20-7b": {
+      "name": "RoboBrain2.0-7B",
+      "repo": "BAAI/RoboBrain2.0-7B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 128000,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--safetensors-load-strategy",
+        "eager",
+        "--dtype",
+        "bfloat16"
+      ]
+    },
+    "mimo-embodied-7b": {
+      "name": "MiMo-Embodied-7B",
+      "repo": "XiaomiMiMo/MiMo-Embodied-7B",
+      "backend": "vllm",
+      "environment": "vllm",
+      "tensor_parallel": 1,
+      "max_model_len": 128000,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": [
+        "--safetensors-load-strategy",
+        "eager",
+        "--dtype",
+        "bfloat16"
+      ]
+    },
+    "hy-embodied-05-mot-2b": {
+      "name": "HY-Embodied-0.5 MoT-2B",
+      "repo": "tencent/HY-Embodied-0.5",
+      "backend": "transformers",
+      "environment": "hy-mot",
+      "tensor_parallel": 1,
+      "max_model_len": 262144,
+      "limit_mm_per_prompt": {
+        "image": 32
+      },
+      "extra_args": []
+    },
+    "hy-embodied-vlm-10": {
+      "name": "Hy-Embodied-VLM-1.0",
+      "repo": "tencent/Hy-Embodied-VLM-1.0",
+      "backend": "vllm",
+      "environment": "hy-vlm",
+      "tensor_parallel": 4,
+      "max_model_len": 32768,
+      "limit_mm_per_prompt": {
+        "image": 32,
+        "video": 0
+      },
+      "extra_args": [
+        "--trust-remote-code",
+        "--dtype",
+        "bfloat16",
+        "--chat-template",
+        "{repo_root}/deploy/templates/hy-embodied-vlm-10.jinja",
+        "--reasoning-parser",
+        "hunyuan_v3",
+        "--tool-call-parser",
+        "hy_v3",
+        "--mm-processor-kwargs",
+        "{\"max_pixels\":786432}",
+        "--chat-template-content-format",
+        "openai"
+      ]
+    }
+  },
+  "profiles": {
+    "qwen35-4b": {
+      "model": "qwen35-4b",
+      "variant": "baseline",
+      "config": "configs/models/qwen35-4b.json"
+    },
+    "internvl35-8b": {
+      "model": "internvl35-8b",
+      "variant": "baseline",
+      "config": "configs/models/internvl35-8b.json"
+    },
+    "gemma3-4b-it": {
+      "model": "gemma3-4b-it",
+      "variant": "baseline",
+      "config": "configs/models/gemma3-4b-it.json"
+    },
+    "minicpm-v45": {
+      "model": "minicpm-v45",
+      "variant": "baseline",
+      "config": "configs/models/minicpm-v45.json"
+    },
+    "minicpm-v45-thinking": {
+      "model": "minicpm-v45",
+      "variant": "thinking",
+      "config": "configs/models/minicpm-v45-thinking.json"
+    },
+    "minicpm-o45": {
+      "model": "minicpm-o45",
+      "variant": "baseline",
+      "config": "configs/models/minicpm-o45.json"
+    },
+    "ovis2-8b": {
+      "model": "ovis2-8b",
+      "variant": "baseline",
+      "config": "configs/models/ovis2-8b.json"
+    },
+    "phi4-multimodal": {
+      "model": "phi4-multimodal",
+      "variant": "baseline",
+      "config": "configs/models/phi4-multimodal.json"
+    },
+    "internvl35-14b": {
+      "model": "internvl35-14b",
+      "variant": "baseline",
+      "config": "configs/models/internvl35-14b.json"
+    },
+    "internvl35-14b-thinking": {
+      "model": "internvl35-14b",
+      "variant": "thinking",
+      "config": "configs/models/internvl35-14b-thinking.json",
+      "extra_args": [
+        "--reasoning-parser",
+        "qwen3"
+      ],
+      "prompts": "configs/prompts/internvl35-14b-thinking.json"
+    },
+    "ministral3-14b-instruct": {
+      "model": "ministral3-14b-instruct",
+      "variant": "baseline",
+      "config": "configs/models/ministral3-14b-instruct.json"
+    },
+    "qwen35-27b": {
+      "model": "qwen35-27b",
+      "variant": "baseline",
+      "config": "configs/models/qwen35-27b.json"
+    },
+    "qwen35-27b-thinking": {
+      "model": "qwen35-27b",
+      "variant": "thinking",
+      "config": "configs/models/qwen35-27b-thinking.json"
+    },
+    "gemma3-27b-it": {
+      "model": "gemma3-27b-it",
+      "variant": "baseline",
+      "config": "configs/models/gemma3-27b-it.json"
+    },
+    "internvl35-30b-a3b": {
+      "model": "internvl35-30b-a3b",
+      "variant": "baseline",
+      "config": "configs/models/internvl35-30b-a3b.json"
+    },
+    "internvl35-38b": {
+      "model": "internvl35-38b",
+      "variant": "baseline",
+      "config": "configs/models/internvl35-38b.json"
+    },
+    "qwen35-a17b-fp8": {
+      "model": "qwen35-a17b-fp8",
+      "variant": "baseline",
+      "config": "configs/models/qwen35-a17b-fp8.json"
+    },
+    "glm46v": {
+      "model": "glm46v",
+      "variant": "baseline",
+      "config": "configs/models/glm46v.json"
+    },
+    "glm46v-thinking": {
+      "model": "glm46v",
+      "variant": "thinking",
+      "config": "configs/models/glm46v-thinking.json"
+    },
+    "hy-embodied-05-mot-2b": {
+      "model": "hy-embodied-05-mot-2b",
+      "variant": "baseline",
+      "config": "configs/models/hy-embodied-05-mot-2b.json"
+    },
+    "cosmos-reason1-7b": {
+      "model": "cosmos-reason1-7b",
+      "variant": "baseline",
+      "config": "configs/models/cosmos-reason1-7b.json"
+    },
+    "robobrain20-7b": {
+      "model": "robobrain20-7b",
+      "variant": "baseline",
+      "config": "configs/models/robobrain20-7b.json"
+    },
+    "mimo-embodied-7b": {
+      "model": "mimo-embodied-7b",
+      "variant": "baseline",
+      "config": "configs/models/mimo-embodied-7b.json"
+    },
+    "hy-embodied-vlm-10": {
+      "model": "hy-embodied-vlm-10",
+      "variant": "baseline",
+      "config": "configs/models/hy-embodied-vlm-10.json"
+    }
+  }
+}

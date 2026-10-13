@@ -1,0 +1,47 @@
+{# HY-VLM-1.0: preserve system text and every image; enable_thinking selects the assistant prefix. #}
+{%- set bos_token = '<｜hy_begin▁of▁sentence｜>' %}
+{%- set user_token = '<｜hy_User｜>' %}
+{%- set assistant_token = '<｜hy_Assistant｜>' %}
+{%- set reasoning_mode_token = '<｜reasoning_mode｜>' %}
+{%- set image_start_token = '<｜hy_image▁start｜>' %}
+{%- set image_pad_token = '<｜hy_image▁pad｜>' %}
+{%- set image_end_token = '<｜hy_image▁end｜>' %}
+{%- if enable_thinking is not defined %}
+{%-   set enable_thinking = true %}
+{%- endif %}
+{{- bos_token }}
+{{- reasoning_mode_token + 'reasoning_effort:' + ('high' if enable_thinking else 'no_think') }}
+{%- for message in messages %}
+{%- if message['role'] == 'user' %}
+{{- user_token }}
+{%- if loop.first or (loop.index0 == 1 and messages[0]['role'] == 'system') %}
+{%- for system_message in messages if system_message['role'] == 'system' %}
+{%- if system_message['content'] is string %}
+{{- system_message['content'] }}
+{%- else %}
+{%- for item in system_message['content'] %}
+{%- if item.type == 'text' %}
+{{- item.text }}
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+{{- '\n\n' }}
+{%- endfor %}
+{%- endif %}
+{%- if message['content'] is string %}
+{{- message['content'] }}
+{%- else %}
+{%- for item in message['content'] %}
+{%- if 'image' in item or 'image_url' in item or item.type == 'image' %}
+{{- image_start_token + image_pad_token + image_end_token }}
+{%- elif 'text' in item %}
+{{- item.text }}
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+{%- endif %}
+{%- endfor %}
+{{- assistant_token + '<think>' }}
+{%- if not enable_thinking %}
+{{- '</think>' }}
+{%- endif %}

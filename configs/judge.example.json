@@ -1,0 +1,17 @@
+{
+  "endpoint": "http://127.0.0.1:9000/v1/chat/completions",
+  "model": "judge-model-name",
+  "reasoning_mode": "provider_default",
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 4096,
+    "seed": 42
+  },
+  "workers": 2,
+  "requests_per_second": 1,
+  "timeout_sec": 600,
+  "max_attempts": 3,
+  "max_payload_bytes": 100000000,
+  "trust_env_proxy": false
+}

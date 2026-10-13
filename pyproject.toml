@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "embodied-benchmark"
+version = "0.2.1"
+description = "Frozen-input evaluation for the 4,467-question Embodied Benchmark"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+dependencies = ["requests>=2.31,<3", "Pillow>=9,<12"]
+
+[project.urls]
+Repository = "https://github.com/JuntianZhang1216/EmboScope"
+
+[project.optional-dependencies]
+test = ["jinja2>=3.1,<4", "fastapi>=0.115,<1", "httpx>=0.27,<1"]
+
+[project.scripts]
+embodied-eval = "embodied_eval.__main__:main"
+
+[tool.setuptools]
+package-dir = {"" = "eval"}
+packages = ["embodied_eval"]
+
+[tool.setuptools.package-data]
+embodied_eval = ["*.json"]
